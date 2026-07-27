@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<div class="card shadow">
+
+
+<div class="card-body">
+
+
+<h2>
+Edit Profile
+</h2>
+
+
+<hr>
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+
+<label>
+Username
+</label>
+
+<input 
+type="text"
+name="username"
+value="{{ user.username }}"
+class="form-control">
+
+
+<br>
+
+
+<label>
+Email
+</label>
+
+<input
+type="email"
+name="email"
+value="{{ user.email }}"
+class="form-control">
+
+
+<br>
+
+
+<button type="submit"
+class="btn btn-success">
+
+Update Profile
+
+</button>
+
+
+<a href="{% url 'profile' %}"
+class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

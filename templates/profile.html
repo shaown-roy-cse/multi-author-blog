@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+<div class="card shadow">
+
+
+    <div class="card-body">
+
+
+        <h2>
+            My Profile
+        </h2>
+
+
+        <hr>
+
+
+        <h5>
+            Username:
+            {{ user.username }}
+        </h5>
+
+
+        <p>
+            Email:
+            {{ user.email }}
+        </p>
+
+
+
+        <!-- Edit Profile Button -->
+
+        <a href="{% url 'edit_profile' %}"
+           class="btn btn-warning">
+
+            Edit Profile
+
+        </a>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<br>
+
+
+
+
+
+<div class="card shadow">
+
+
+    <div class="card-body">
+
+
+        <h3>
+            My Posts
+        </h3>
+
+
+        <hr>
+
+
+
+        {% for post in posts %}
+
+
+
+        <div class="border rounded p-3 mb-3">
+
+
+
+            <h5>
+                {{ post.title }}
+            </h5>
+
+
+
+            <p>
+                {{ post.content|truncatewords:20 }}
+            </p>
+
+
+
+
+            <a href="{% url 'post_detail' post.id %}"
+               class="btn btn-primary">
+
+                View Post
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+        {% empty %}
+
+
+
+        <p>
+            You have not created any posts yet.
+        </p>
+
+
+
+
+        {% endfor %}
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+<a href="{% url 'home' %}"
+   class="btn btn-secondary">
+
+    Back Home
+
+</a>
+
+
+
+
+{% endblock %}

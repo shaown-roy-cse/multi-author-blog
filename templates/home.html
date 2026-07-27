@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<h1>
+    Welcome to Multi Author Blog
+</h1>
+
+
+<p>
+    Project is running successfully.
+</p>
+
+
+
+{% if user.is_authenticated %}
+
+
+<h3>
+    Hello, {{ user.username }}
+</h3>
+
+
+<a href="{% url 'logout' %}">
+    Logout
+</a>
+
+
+<br><br>
+
+
+<a href="{% url 'create_post' %}">
+    Create New Post
+</a>
+
+
+<br><br>
+
+
+<a href="{% url 'post_list' %}">
+    View All Posts
+</a>
+
+
+
+{% else %}
+
+
+<a href="{% url 'login' %}">
+    Login
+</a>
+
+
+<br><br>
+
+
+<a href="{% url 'register' %}">
+    Register
+</a>
+
+
+
+{% endif %}
+
+
+
+{% endblock %}

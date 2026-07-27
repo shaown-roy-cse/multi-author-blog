@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Multi Author Blog
+    </title>
+
+
+    <!-- Bootstrap CSS -->
+
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+</head>
+
+
+
+<body>
+
+
+<!-- =========================
+     Navbar
+========================= -->
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+
+    <div class="container">
+
+
+        <!-- Website Name -->
+
+        <a class="navbar-brand"
+           href="{% url 'home' %}">
+
+            Multi Author Blog
+
+        </a>
+
+
+
+
+        <div>
+
+
+            <!-- All Posts -->
+
+            <a class="btn btn-outline-light me-2"
+               href="{% url 'post_list' %}">
+
+                All Posts
+
+            </a>
+
+
+
+
+
+            {% if user.is_authenticated %}
+
+
+
+            <!-- Create Post -->
+
+            <a class="btn btn-success me-2"
+               href="{% url 'create_post' %}">
+
+                Create Post
+
+            </a>
+
+
+
+
+
+            <!-- Profile -->
+
+            <a class="btn btn-info me-2"
+               href="{% url 'profile' %}">
+
+                Profile
+
+            </a>
+
+
+
+
+
+            <!-- Username -->
+
+            <span class="text-white me-2">
+
+                Hello, {{ user.username }}
+
+            </span>
+
+
+
+
+
+            <!-- Logout -->
+
+            <a class="btn btn-danger"
+               href="{% url 'logout' %}">
+
+                Logout
+
+            </a>
+
+
+
+
+
+            {% else %}
+
+
+
+
+            <!-- Login -->
+
+            <a class="btn btn-primary me-2"
+               href="{% url 'login' %}">
+
+                Login
+
+            </a>
+
+
+
+
+
+            <!-- Register -->
+
+            <a class="btn btn-warning"
+               href="{% url 'register' %}">
+
+                Register
+
+            </a>
+
+
+
+
+
+            {% endif %}
+
+
+
+        </div>
+
+
+    </div>
+
+
+</nav>
+
+
+
+
+
+
+<!-- =========================
+     Messages
+========================= -->
+
+
+<div class="container mt-3">
+
+
+    {% if messages %}
+
+
+        {% for message in messages %}
+
+
+        <div class="alert alert-info">
+
+            {{ message }}
+
+        </div>
+
+
+        {% endfor %}
+
+
+    {% endif %}
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =========================
+     Main Content
+========================= -->
+
+
+<div class="container mt-4">
+
+
+    {% block content %}
+
+
+    {% endblock %}
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Bootstrap JS -->
+
+
+<script 
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+
+</script>
+
+
+
+</body>
+
+
+</html>
