@@ -8,7 +8,7 @@
 
 
 <a href="{% url 'create_post' %}" class="btn btn-primary">
-    Create New Post
+    + Create New Post
 </a>
 
 
@@ -34,12 +34,34 @@
 
         <p>
             <strong>Status:</strong>
-            {{ post.status }}
+            {{ post.status|title }}
+        </p>
+
+
+        <p>
+            <strong>Views:</strong>
+            👁 {{ post.view_count }}
+        </p>
+
+
+        <p>
+            <strong>Created:</strong>
+            {{ post.created_at }}
+        </p>
+
+
+        <p>
+            <strong>Updated:</strong>
+            {{ post.updated_at }}
         </p>
 
 
 
-        <!-- Draft Post -->
+        <hr>
+
+
+        <!-- Publish Draft Post -->
+
         {% if post.status == 'draft' %}
 
         <a href="{% url 'publish_post' post.id %}"
@@ -53,7 +75,8 @@
 
 
 
-        <!-- Published Post -->
+        <!-- Make Published Post Draft -->
+
         {% if post.status == 'published' %}
 
         <a href="{% url 'unpublish_post' post.id %}"
@@ -68,6 +91,8 @@
 
 
 
+        <!-- Edit -->
+
         <a href="{% url 'edit_post' post.id %}"
            class="btn btn-warning">
 
@@ -78,12 +103,25 @@
 
 
 
-        <a href="{% url 'delete_post' post.id %}"
-           class="btn btn-danger">
+        <!-- Delete -->
 
-            Delete
+        <form method="POST"
+              action="{% url 'delete_post' post.id %}"
+              style="display:inline;">
 
-        </a>
+            {% csrf_token %}
+
+
+            <button type="submit"
+                    class="btn btn-danger"
+                    onclick="return confirm('Delete this post?');">
+
+                Delete
+
+            </button>
+
+
+        </form>
 
 
 
@@ -96,9 +134,11 @@
 {% empty %}
 
 
-<p>
+<div class="alert alert-info">
+
     No posts available.
-</p>
+
+</div>
 
 
 {% endfor %}

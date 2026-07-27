@@ -308,13 +308,11 @@ Comments
 
 
 
-
-{% if user == comment.author %}
-
+{% if user == comment.author or user == post.author or user.is_staff %}
 
 <br><br>
 
-
+{% if user == comment.author %}
 
 <a href="{% url 'edit_comment' comment.id %}"
 class="btn btn-sm btn-warning">
@@ -323,31 +321,22 @@ Edit
 
 </a>
 
-
+{% endif %}
 
 
 <form method="POST"
 action="{% url 'delete_comment' comment.id %}"
 class="d-inline">
 
-
 {% csrf_token %}
 
-
-
-<button class="btn btn-sm btn-danger"
-onclick="return confirm('Delete comment?');">
-
+<button class="btn btn-sm btn-danger">
 
 Delete
 
-
 </button>
 
-
-
 </form>
-
 
 
 {% endif %}

@@ -34,9 +34,22 @@ def is_author(user):
 
 def home(request):
 
+    posts = Post.objects.filter(
+        status='published'
+    ).order_by('-created_at')
+
+    paginator = Paginator(posts, 5)
+
+    page_number = request.GET.get('page')
+
+    posts = paginator.get_page(page_number)
+
     return render(
         request,
-        'home.html'
+        'home.html',
+        {
+            'posts': posts
+        }
     )
 
 
@@ -276,6 +289,10 @@ def post_detail(request, id):
 # Create Post
 # =========================
 
+# =========================
+# Create Post
+# =========================
+
 @login_required
 def create_post(request):
 
@@ -299,15 +316,25 @@ def create_post(request):
         tag_ids = request.POST.getlist('tags')
 
 
+        # Create Post
         post = Post.objects.create(
+
             title=title,
+
             content=content,
+
             author=request.user,
+
             status=status,
-            category_id=category_id
+
+            category_id=category_id,
+
+            featured_image=request.FILES.get('featured_image')
+
         )
 
 
+        # Add Tags
         post.tags.set(tag_ids)
 
 
@@ -317,19 +344,26 @@ def create_post(request):
         )
 
 
-        return redirect('post_list')
+        return redirect(
+            'post_list'
+        )
 
 
     return render(
+
         request,
+
         'create_post.html',
+
         {
+
             'categories': Category.objects.all(),
+
             'tags': Tag.objects.all()
+
         }
+
     )
-
-
 
 # =========================
 # Edit Post
@@ -491,20 +525,33 @@ def delete_comment(request, id):
     )
 
 
-    if comment.author == request.user:
+    post = comment.post
 
-        post_id = comment.post.id
+
+    # Permission check
+    if (
+        comment.author == request.user
+        or post.author == request.user
+        or request.user.is_staff
+    ):
 
         comment.delete()
+
+        messages.success(
+            request,
+            "Comment deleted successfully!"
+        )
 
 
         return redirect(
             'post_detail',
-            id=post_id
+            id=post.id
         )
 
 
-    return redirect('post_list')
+    return HttpResponseForbidden(
+        "You cannot delete this comment"
+    )
 
 
 
